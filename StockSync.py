@@ -6,7 +6,7 @@ def login():
     username = username_entry.get()
     password = password_entry.get()
 
-    if username == "admin" and password == "password":
+    if username == "" and password == "":
         messagebox.showinfo("Login info", "Logged in successfully")
     else:
         messagebox.showinfo("Login info", "Invalid credentials")
