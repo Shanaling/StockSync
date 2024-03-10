@@ -2,7 +2,7 @@
 import tkinter as tk
 import mysql.connector
 from tkinter import messagebox, ttk, PhotoImage
-from PIL import Image, ImageTk  # Import from Pillow to handle image operations
+from PIL import Image, ImageTk  #Import from Pillow to handle image operations
 
 class ToolTip:
     """
@@ -25,10 +25,10 @@ class ToolTip:
         x += self.widget.winfo_rootx() + 20
         y += self.widget.winfo_rooty() + 20
         
-        # Creates a toplevel window
+        #Creates a toplevel window:
         self.tipwindow = tk.Toplevel(self.widget)
         
-        # Leaves only the label and removes the app window
+        #Leaves only the label and removes the app window:
         self.tipwindow.wm_overrideredirect(True)
         self.tipwindow.wm_geometry("+%d+%d" % (x, y))
         label = tk.Label(self.tipwindow, text=self.text, justify=tk.LEFT,
@@ -44,7 +44,7 @@ class ToolTip:
             self.tipwindow.destroy()
         self.tipwindow = None
 
-# Main application class definition
+#Main application class definition:
 class Application(tk.Frame):
     """
     The main application class, containing the GUI and functionality.
@@ -268,11 +268,16 @@ class Application(tk.Frame):
             return
     
         try:
-            updated_quantity = int(updated_quantity_str)
-            if updated_quantity < 0:
-                raise ValueError("Quantity cannot be negative.")
+            updated_quantity = int(updated_quantity_str)  # Attempt to convert the string to an integer
         except ValueError:
+    # Handles the case where conversion to integer fails (e.g., non-numeric input)
             messagebox.showerror("Input Error", "Please enter a valid integer for quantity.")
+            return
+
+# After successfully converting to an integer, check if it is non-negative
+        if updated_quantity < 0:
+    # Handles the case where the quantity is a number, but it's negative
+            messagebox.showerror("Input Error", "Quantity cannot be negative.")
             return
 
         #Update the item in the database
@@ -292,14 +297,16 @@ class Application(tk.Frame):
         if not item_name:
             messagebox.showerror("Input Error", "Item name cannot be empty.")
             return
-    
-        # Check if quantity is a valid integer
+    # Check if quantity is a valid integer
         try:
             quantity = int(quantity_str)
-            if quantity < 0:
-                raise ValueError("Quantity cannot be negative.")
         except ValueError:
             messagebox.showerror("Input Error", "Please enter a valid integer for quantity.")
+            return
+
+        # Check if the quantity is non-negative
+        if quantity < 0:
+            messagebox.showerror("Input Error", "Quantity cannot be negative.")
             return
 
         # Add the item to the database
